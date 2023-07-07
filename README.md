@@ -1,18 +1,16 @@
 ## How to embed a Barcode Component into an application to get access to scanning and recognition functionality
 
-1. Add aspose-barcode-android-xx.xx.aar to dependencies   
+1. You can add aspose-barcode-android-xx.xx.aar to dependencies   
    Add following dependencies as well  
    ```groovy
    dependencies {
-   implementation(name:'aspose-barcode-android-22.11', ext:'aar')
-   implementation 'androidx.appcompat:appcompat:1.5.1'
-   implementation 'com.google.android.material:material:1.6.1'
-   implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-   implementation 'androidx.preference:preference:1.2.0'
-   implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
-   testImplementation 'junit:junit:4.13.2'
-   androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-   androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+   implementation(name:'aspose-barcode-android-23.6', ext:'aar')
+   }
+   ```
+   or put aspose-barcode-android-xx.x.aar to lib folder and add it to dependencies like this:
+   ```groovy
+   dependencies {
+   implementation fileTree(dir: "libs", include: "aspose-barcode-android-23.6.aar")
    }
    ```
 2. Create classes to use com.aspose.barcode.component.barcodescanner.BarcodeScanner  
