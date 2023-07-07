@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.aspose.example.fragment.ClientMainFragment">
+    <Button
+        android:id="@+id/button_read_license_file"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Read license file" />
+
+    <Button
+        android:id="@+id/button_install_license_file"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Setup license" />
+
+    <Button
+        android:id="@+id/button_recognize_scanner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Recognize in activity" />
+
+    <Button
+        android:id="@+id/button_recognize_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Recognize in fragment" />
+
+
+
+</LinearLayout>
