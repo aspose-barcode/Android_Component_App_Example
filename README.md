@@ -26,7 +26,12 @@
 6. Hover a square frame on the image and click the green button at the bottom.
 
 ## How to embed a Barcode Component into an application to get access to scanning and recognition functionality
-1. Create classes to use com.aspose.barcode.component.barcodescanner.BarcodeScanner  
+1. Configure the Gradle build in the manner described in this example code.
+Be sure to include 
+```groovy
+implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+```
+2. Create classes to use com.aspose.barcode.component.barcodescanner.BarcodeScanner  
     
    - BarcodeScanner needs reference to instance of the current application activity because
        the scanning and recognition will be fulfilling inside of component's activity.
