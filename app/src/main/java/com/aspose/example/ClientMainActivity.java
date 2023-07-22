@@ -7,6 +7,7 @@ import android.hardware.camera2.CameraAccessException;
 import android.os.Bundle;
 
 import com.aspose.barcode.component.barcodescanner.BarcodeScanner;
+import com.aspose.barcode.component.example.R;
 import com.aspose.example.fragment.ClientBarcodeScannerFragmentViewModel;
 import com.aspose.example.fragment.ClientBarcodeScannerViewModel;
 import com.aspose.example.fragment.ClientRecognitionSettings;
