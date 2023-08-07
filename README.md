@@ -1,18 +1,36 @@
-## How to embed a Barcode Component into an application to get access to scanning and recognition functionality
-
-1. You can add aspose-barcode-android-xx.xx.aar to dependencies   
+## How to use an application
+    
+1. You should add aspose-barcode-android-xx.xx.aar to dependencies   
    Add following dependencies as well  
    ```groovy
    dependencies {
    implementation(name:'aspose-barcode-android-23.6', ext:'aar')
    }
    ```
-   or put aspose-barcode-android-xx.x.aar to lib folder and add it to dependencies like this:
+   or put aspose-barcode-android-xx.x.aar to lib folder and add it to dependencies like that:
    ```groovy
    dependencies {
    implementation fileTree(dir: "libs", include: "aspose-barcode-android-23.6.aar")
    }
    ```
+2. You might request trial license at
+     https://purchase.aspose.com/temporary-license/
+  and place it to app/src/main/assets folder. Expected name of license file is 'Aspose.BarCode.Android.Java.lic'.
+  But this name can be changed in the file 'strings.xml' .
+  If you run without license the certain restrictions will be applied.
+3. Launch application. Click button Setup License. If license was installed the appropriate message will appear.
+4. Click button "Recognize via activity" to test recognition functionality implemented with using component's
+   BarcodeScannerActivity
+5.  Click button "Recognize via fragment" to test recognition functionality implemented with using component's
+    BarcodeScannerFragment
+6. Hover a square frame on the image and click the green button at the bottom.
+
+## How to embed a Barcode Component into an application to get access to scanning and recognition functionality
+1. Configure the Gradle build in the manner described in this example code.
+Be sure to include 
+```groovy
+implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+```
 2. Create classes to use com.aspose.barcode.component.barcodescanner.BarcodeScanner  
     
    - BarcodeScanner needs reference to instance of the current application activity because
@@ -81,7 +99,7 @@
      ```
    from which the client can get the result of scanning and recognition of barcode.
 
-3.Launch the scanning process     
+2.Launch the scanning process     
    Customer should implement single-method-interface RecognitionHandler
    ```java
    public interface RecognitionHandler extends Parcelable

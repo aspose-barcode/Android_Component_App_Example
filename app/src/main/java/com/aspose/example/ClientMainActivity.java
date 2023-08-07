@@ -7,10 +7,10 @@ import android.hardware.camera2.CameraAccessException;
 import android.os.Bundle;
 
 import com.aspose.barcode.component.barcodescanner.BarcodeScanner;
+import com.aspose.barcode.component.example.R;
 import com.aspose.example.fragment.ClientBarcodeScannerFragmentViewModel;
 import com.aspose.example.fragment.ClientBarcodeScannerViewModel;
 import com.aspose.example.fragment.ClientRecognitionSettings;
-import com.aspose.example.lic.LicenseAssistant;
 
 import java.util.Locale;
 
@@ -24,7 +24,6 @@ public class ClientMainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         Locale.setDefault(new Locale("en", "US"));
-//        LicenseAssistant.setupLicense(); //licensecan be installed via interface
 
         // Barcode Scanner Activity View Model
         clientBarcodeScannerViewModel = new ViewModelProvider(this).get(ClientBarcodeScannerViewModel.class);

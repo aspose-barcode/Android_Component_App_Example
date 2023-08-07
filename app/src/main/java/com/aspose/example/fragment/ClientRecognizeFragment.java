@@ -18,7 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.aspose.barcode.barcoderecognition.DecodeType;
 import com.aspose.barcode.component.barcodescanner.BarcodeRecognitionSettings;
 import com.aspose.barcode.component.barcodescanner.BarcodeScannerFragment;
-import com.aspose.example.R;
+import com.aspose.barcode.component.example.R;
 
 import java.util.Arrays;
 import java.util.Collections;

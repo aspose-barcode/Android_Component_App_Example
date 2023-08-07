@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.aspose.example'
+    namespace 'com.aspose.barcode.component.example'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.aspose.example"
+        applicationId "com.aspose.barcode.component.example"
         minSdk 26
         targetSdk 33
         versionCode 1

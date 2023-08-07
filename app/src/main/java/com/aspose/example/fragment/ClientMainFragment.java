@@ -20,8 +20,9 @@ import com.aspose.barcode.barcoderecognition.DecodeType;
 import com.aspose.barcode.component.barcodescanner.BarcodeRecognitionResultsHandlerParcelable;
 import com.aspose.barcode.component.barcodescanner.BarcodeRecognitionSettings;
 import com.aspose.barcode.component.barcodescanner.OnBarcodeScannerCompletedCallback;
+
 import com.aspose.example.ClientResultsListener;
-import com.aspose.example.R;
+import com.aspose.barcode.component.example.R;
 
 import java.io.BufferedReader;
 import java.io.IOException;

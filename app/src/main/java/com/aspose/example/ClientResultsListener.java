@@ -3,6 +3,8 @@ package com.aspose.example;
 import android.content.Context;
 import android.os.Parcel;
 
+import androidx.appcompat.app.AlertDialog;
+
 import com.aspose.barcode.barcoderecognition.BarCodeResult;
 import com.aspose.barcode.barcoderecognition.BarcodeSettings;
 import com.aspose.barcode.component.barcodescanner.BarcodeRecognitionResultsHandlerParcelable;
@@ -43,7 +45,12 @@ public class ClientResultsListener implements BarcodeRecognitionResultsHandlerPa
     public boolean processResult(Context context, BarCodeResult[] results, BarcodeSettings settings)
     {
         if(results == null || results.length < 1)
+        {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+            dialog.setMessage("Cannot recognize Barcode Image");
+            dialog.create().show();
             return true;
+        }
 
         resultString = results[0].getCodeText();
         return false;
