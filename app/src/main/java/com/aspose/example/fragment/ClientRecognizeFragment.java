@@ -1,12 +1,9 @@
 package com.aspose.example.fragment;
 
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.hardware.camera2.CameraAccessException;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.RadioGroup;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -15,14 +12,18 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Size;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.RadioGroup;
+
 import com.aspose.barcode.barcoderecognition.DecodeType;
 import com.aspose.barcode.component.barcodescanner.BarcodeRecognitionSettings;
 import com.aspose.barcode.component.barcodescanner.BarcodeScannerFragment;
+import com.aspose.barcode.component.barcodescanner.BarcodeScannerFragmentSettings;
 import com.aspose.barcode.component.example.R;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -89,11 +90,14 @@ public class ClientRecognizeFragment extends Fragment
 
         BarcodeRecognitionSettings barcodeRecognitionSettings = barcodeScannerFragment.getBarcodeRecognitionSettings();
 
-        try {
-            barcodeRecognitionSettings.setCameraResolution(Collections.min(Arrays.asList(ClientSettingsFragment.getCameraResolutions(requireContext())), Comparator.comparingInt(o -> o.getWidth() * o.getHeight())));
-        } catch (CameraAccessException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+        barcodeRecognitionSettings.getBarcodeScannerFragmentSettings().getCameraProcessingFragmentSettings().getRecognitionAreaSettings().setOneDLineColor(Color.MAGENTA);
+        barcodeRecognitionSettings.getBarcodeScannerFragmentSettings().getCameraProcessingFragmentSettings().getRecognitionAreaSettings().setOneDLineWidth(30);
+//            barcodeRecognitionSettings.getBarcodeScannerFragmentSettings().getCameraProcessingFragmentSettings().setCameraResolution(Collections.min(Arrays.asList(ClientSettingsFragment.getCameraResolutions(requireContext())), Comparator.comparingInt(o -> o.getWidth() * o.getHeight())));
+        barcodeRecognitionSettings.getBarcodeScannerFragmentSettings().getCameraProcessingFragmentSettings().setCameraResolution(new Size(1280,720));
+//        } catch (CameraAccessException e) {
+//            throw new RuntimeException(e);
+//        }
 
         showRecognitionAreaCheckbox.setOnCheckedChangeListener((compoundButton, checked) ->
         {
@@ -128,20 +132,22 @@ public class ClientRecognizeFragment extends Fragment
     {
         ClientRecognitionSettings clientRecognitionSettings = clientBarcodeScannerFragmentViewModel.getData().getValue();
 
-        barcodeRecognitionSettings.setShowRecognitionArea(clientRecognitionSettings.getShowRecognitionArea());
+        barcodeRecognitionSettings.getBarcodeScannerFragmentSettings().getCameraProcessingFragmentSettings().getRecognitionAreaSettings().setRecognizeOnlyInRecognitionArea(clientRecognitionSettings.getShowRecognitionArea());
         barcodeRecognitionSettings.setBarCodeReadType(clientRecognitionSettings.getBarCodeReadType());
-        barcodeRecognitionSettings.setFlashEnabled(clientRecognitionSettings.getFlashEnabled());
+        BarcodeScannerFragmentSettings barcodeScannerFragmentSettings = barcodeRecognitionSettings.getBarcodeScannerFragmentSettings();
+        barcodeScannerFragmentSettings.getCameraProcessingFragmentSettings().setFlashEnabled(clientRecognitionSettings.getFlashEnabled());
 
         barcodeRecognitionSettings.setBarcodeRecognitionResultHandler((context, results, settings) ->
         {
-            String message = "Not recognized";
+            String notRecognizedMessage = "Not recognized";
+            String message = notRecognizedMessage;
             if (results.length > 0) {
                 message = results[0].getCodeText();
             }
-            AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
-            dialog.setMessage(message);
-            dialog.create().show();
-            return true;
+            AlertDialog.Builder dialog1 = new AlertDialog.Builder(context);
+            dialog1.setMessage(message);
+            dialog1.create().show();
+            return message.equals(notRecognizedMessage);
         });
     }
 }
