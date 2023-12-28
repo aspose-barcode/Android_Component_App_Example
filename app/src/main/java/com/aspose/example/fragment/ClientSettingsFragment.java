@@ -66,12 +66,12 @@ public class ClientSettingsFragment extends BarcodeScannerPreferencesFragment
 
         // Show recognition area
         SwitchPreferenceCompat switchPreference = findPreference("show_recognition_area");
-        switchPreference.setChecked(scannerPreferences.isShowRecognitionArea());
+        switchPreference.setChecked(scannerPreferences.getBarcodeScannerFragmentSettings().getCameraProcessingFragmentSettings().getRecognitionAreaSettings().isRecognizeOnlyInRecognitionArea());
         switchPreference.setOnPreferenceChangeListener((preference, newValue) -> {
             boolean isShowRecognitionArea = (Boolean)newValue;
-            scannerPreferences.setShowRecognitionArea((isShowRecognitionArea));
+            scannerPreferences.getBarcodeScannerFragmentSettings().getCameraProcessingFragmentSettings().getRecognitionAreaSettings().setRecognizeOnlyInRecognitionArea((isShowRecognitionArea));
             switchPreference.setChecked(isShowRecognitionArea);
-            getBarcodeScannerFragmentPreferences().setShowRecognitionArea(isShowRecognitionArea);
+            getBarcodeScannerFragmentPreferences().getBarcodeScannerFragmentSettings().getCameraProcessingFragmentSettings().getRecognitionAreaSettings().setRecognizeOnlyInRecognitionArea(isShowRecognitionArea);
             return true;
         });
         switchPreference.setVisible(true);
@@ -114,8 +114,8 @@ public class ClientSettingsFragment extends BarcodeScannerPreferencesFragment
         List<String> entries = new ArrayList<>();
         List<Size> availableResolutions = Arrays.asList(getCameraResolutions(requireContext()));
         availableResolutions.sort(Comparator.comparingInt(o -> o.getWidth() * o.getHeight()));
-        Size chosenResolution = getBarcodeScannerFragmentPreferences().getCameraResolution() == null ? availableResolutions.get(0) :
-                getBarcodeScannerFragmentPreferences().getCameraResolution();
+        Size chosenResolution = getBarcodeScannerFragmentPreferences().getBarcodeScannerFragmentSettings().getCameraProcessingFragmentSettings().getCameraResolution() == null ? availableResolutions.get(0) :
+                getBarcodeScannerFragmentPreferences().getBarcodeScannerFragmentSettings().getCameraProcessingFragmentSettings().getCameraResolution();
         availableResolutions.forEach(resolution -> entries.add(resolution.getWidth() + "x" + resolution.getHeight()));
         resolutionListPreference.setEntries(entries.toArray(new String[0]));
         resolutionListPreference.setEntryValues(entries.toArray(new String[0]));
@@ -126,10 +126,10 @@ public class ClientSettingsFragment extends BarcodeScannerPreferencesFragment
             String titleResolution = (String)newValue;
             Size newResolution = new Size(Integer.parseInt(titleResolution.split("x")[0]),Integer.parseInt(titleResolution.split("x")[1]));
             resolutionListPreference.setTitle(newResolution.getWidth() + "x" + newResolution.getHeight());
-            getBarcodeScannerFragmentPreferences().setCameraResolution(newResolution);
+            getBarcodeScannerFragmentPreferences().getBarcodeScannerFragmentSettings().getCameraProcessingFragmentSettings().setCameraResolution(newResolution);
             return true;
         });
-        getBarcodeScannerFragmentPreferences().setCameraResolution(chosenResolution);
+        getBarcodeScannerFragmentPreferences().getBarcodeScannerFragmentSettings().getCameraProcessingFragmentSettings().setCameraResolution(chosenResolution);
     }
 
     private static String getDecodeTypeTitle(BaseDecodeType decodeType)
@@ -143,7 +143,7 @@ public class ClientSettingsFragment extends BarcodeScannerPreferencesFragment
         return ALL_SUPPORTED_TYPES_TITLE_NAME;
     }
 
-    public static Size[] getCameraResolutions(Context context) throws CameraAccessException
+    public static android.util.Size[] getCameraResolutions(Context context) throws CameraAccessException
     {
         CameraManager cameraManager = ((CameraManager) context.getSystemService(Context.CAMERA_SERVICE));
         StreamConfigurationMap configurationMap = cameraManager.getCameraCharacteristics(String.valueOf(0)).get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP); // TODO String.valueOf(0)
