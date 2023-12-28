@@ -1,10 +1,10 @@
 package com.aspose.example;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.hardware.camera2.CameraAccessException;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.aspose.barcode.component.barcodescanner.BarcodeScanner;
 import com.aspose.barcode.component.example.R;
