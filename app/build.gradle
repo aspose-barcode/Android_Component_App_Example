@@ -55,3 +55,33 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }
+
+task copyApk(type: Copy) {
+    from("$buildDir/outputs/apk/debug") {
+        include("app-debug.apk")
+        rename("app-debug.apk", "$jarFinalName")
+    }
+    destinationDir(file("$rootDir/$publishPath"))
+    doFirst {
+        logger.info('\n### Executing copyApk')
+    }
+    doLast {
+        logger.info("copied  $jarFinalName  to  $rootDir/$publishPath")
+    }
+}
+
+gradle.taskGraph.whenReady { taskGraph ->
+    def tasks = taskGraph.getAllTasks();
+    println("list of tasks:")
+    int i = 0;
+    tasks.each {
+        def taskName = it.getName()
+        println(i++ + " : $taskName")
+//        if (setUpToDateToFalse.equals('true')) {
+//            it.outputs.upToDateWhen { false }
+//        }
+    }
+}
+
+copyApk.dependsOn 'check'
+build.dependsOn 'copyApk'
