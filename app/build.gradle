@@ -1,5 +1,33 @@
-plugins {
-    id 'com.android.application'
+apply plugin: 'com.android.application'
+apply plugin: 'maven-publish'
+
+project.description = 'Aspose Barcode Android Application'
+def proguardFileName = "gradles/proguard.app.conf"
+def githubProperties = new Properties()
+githubProperties.load(new FileInputStream(rootProject.file("github.properties")))
+
+publishing {
+    publications {
+        bar(MavenPublication) {
+            groupId gp.groupId
+            artifactId gp.artifactFinalName
+            version gp.versionName
+            artifact(gp.publishPath + gp.apkFinalName)
+        }
+    }
+
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/aspose-barcode/Barcode_Android_Application")
+//            url = uri("https://github.com/aspose-barcode/Android-Sample-Application")
+
+            credentials {
+                username = githubProperties['github.user']
+                password = githubProperties['github.key']
+            }
+        }
+    }
 }
 
 android {
@@ -17,6 +45,12 @@ android {
     }
 
     buildTypes {
+        basic {
+//            signingConfig signingConfigs.release
+            versionNameSuffix '.basic'
+            minifyEnabled true
+            proguardFiles "$proguardFileName"
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -32,18 +66,13 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: "libs", include: "aspose-barcode-android-java-23.12.aar")
+    implementation fileTree(dir: "$projectDir/libs", include: '*.aar')
+    androidTestImplementation fileTree(dir: "$projectDir/libs", include: '*.aar')
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
 //    implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.preference:preference:1.2.0'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-
-    androidTestImplementation fileTree(dir: "libs", include: "aspose-barcode-android-java-23.12.aar")
-
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
@@ -57,16 +86,16 @@ dependencies {
 }
 
 task copyApk(type: Copy) {
-    from("$buildDir/outputs/apk/debug") {
-        include("app-debug.apk")
-        rename("app-debug.apk", "$jarFinalName")
+    from("$buildDir/outputs/apk/basic") {
+        include("app-basic-unsigned.apk")
+        rename("app-basic-unsigned.apk", "$apkFinalName")
     }
-    destinationDir(file("$rootDir/$publishPath"))
+    destinationDir(file("$publishPath"))
     doFirst {
         logger.info('\n### Executing copyApk')
     }
     doLast {
-        logger.info("copied  $jarFinalName  to  $rootDir/$publishPath")
+        logger.info("copied  $apkFinalName  to  $publishPath")
     }
 }
 
