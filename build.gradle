@@ -1,11 +1,34 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.2.1'
+        classpath group: 'net.sf.proguard', name: 'proguard-gradle', version: '6.2.2'
+    }
+}
+
 plugins {
     id 'com.android.application' version '7.4.2' apply false
     id 'com.android.library' version '7.4.2' apply false
 }
 
+
+
 project.ext {
-    pe = rootProject.ext;
-    jarFinalName = "aspose-barcode.apk";
-    publishPath = "publish"
+    gp = rootProject.ext
+    apkBasicPath = "$rootDir/app/build/outputs/apk/basic/"
+    apkBasicName = "barcode-app-basic.apk"
+    obfuscateApk = project.ext.get('obfuscate_apk')
+    publishPath = "${rootDir}/publish/"
+    versionName = project.ext.get('version_name')
+    groupId = "com.aspose.barcode.android"
+    artifactFinalName = "android-barcode-application"
+    apkFinalName = artifactFinalName + ".apk"
+    logPath = "${rootDir}/app/logs"
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }
