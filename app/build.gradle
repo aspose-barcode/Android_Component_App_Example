@@ -99,6 +99,8 @@ task copyApk(type: Copy) {
     }
 }
 
+apply from: 'gradles/echoBuildParameters.gradle'
+
 gradle.taskGraph.whenReady { taskGraph ->
     def tasks = taskGraph.getAllTasks();
     println("list of tasks:")
@@ -112,5 +114,6 @@ gradle.taskGraph.whenReady { taskGraph ->
     }
 }
 
+preBuild.dependsOn('echoBuildParameters')
 copyApk.dependsOn 'check'
 build.dependsOn 'copyApk'

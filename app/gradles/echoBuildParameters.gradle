@@ -1,0 +1,15 @@
+task echoBuildParameters {
+    outputs.upToDateWhen { false }
+    doFirst {
+        logger.info("\n Executing echoBuildParameters")
+        println '[obfuscateApk] = ' + gp.obfuscateApk
+        println '[apkBasicPath] = ' + gp.apkBasicPath
+        println '[apkBasicName] = ' + gp.apkBasicName
+        println '[artifactFinalName] = ' + gp.artifactFinalName
+        println '[apkFinalName] = ' + gp.apkFinalName
+        println '[obfuscateApk] = ' + gp.obfuscateApk
+        println '[publishPath] = ' + gp.publishPath
+        println '[versionName] = ' + gp.versionName
+        println '[groupId] = ' + gp.groupId
+    }
+}
