@@ -29,6 +29,10 @@
         android:layout_height="wrap_content"
         android:text="Recognize in fragment" />
 
-
-
+  <Button
+    android:id="@+id/button_recognize_fragment_fullscreen"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Recognize in fullscreen fragment"
+/>
 </LinearLayout>

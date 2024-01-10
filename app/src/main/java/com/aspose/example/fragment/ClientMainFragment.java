@@ -2,6 +2,7 @@ package com.aspose.example.fragment;
 
 import android.app.Activity;
 import android.content.res.AssetManager;
+import android.graphics.LightingColorFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,7 +20,9 @@ import com.aspose.barcode.License;
 import com.aspose.barcode.barcoderecognition.DecodeType;
 import com.aspose.barcode.component.barcodescanner.BarcodeRecognitionResultsHandlerParcelable;
 import com.aspose.barcode.component.barcodescanner.BarcodeRecognitionSettings;
+import com.aspose.barcode.component.barcodescanner.BarcodeScannerPreferences;
 import com.aspose.barcode.component.barcodescanner.OnBarcodeScannerCompletedCallback;
+import com.aspose.barcode.component.barcodescanner.RecognitionProcessFragmentCameraPhotoBackground;
 import com.aspose.barcode.component.example.R;
 import com.aspose.example.ClientResultsListener;
 
@@ -35,8 +38,7 @@ public class ClientMainFragment extends Fragment
 {
     private final static String TAG = "ClientMainFragment";
 
-    public ClientMainFragment()
-    {
+    public ClientMainFragment() {
         // Required empty public constructor
     }
 
@@ -48,8 +50,7 @@ public class ClientMainFragment extends Fragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+                             Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_main, container, false);
     }
@@ -61,6 +62,7 @@ public class ClientMainFragment extends Fragment
 
         Button recognizeBarcodeScannerViaActivityButton = requireActivity().findViewById(R.id.button_recognize_scanner);
         Button recognizeBarcodeScannerViaFragmentButton = requireActivity().findViewById(R.id.button_recognize_fragment);
+        Button recognizeBarcodeScannerViaFullScreenFragmentButton = requireActivity().findViewById(R.id.button_recognize_fragment_fullscreen);
         Button installLicenseFileButton = requireActivity().findViewById(R.id.button_install_license_file);
         Button readLicenseFileButton = requireActivity().findViewById(R.id.button_read_license_file);
 
@@ -113,11 +115,9 @@ public class ClientMainFragment extends Fragment
             }
         }));
 
-        recognizeBarcodeScannerViaActivityButton.setOnClickListener(new View.OnClickListener()
-        {
+        recognizeBarcodeScannerViaActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view)  {
                 ClientResultsListener listener = new ClientResultsListener();
                 ClientBarcodeScannerViewModel clientBarcodeScannerViewModel = new ViewModelProvider(requireActivity()).get(ClientBarcodeScannerViewModel.class);
                 if (clientBarcodeScannerViewModel.getData().getValue() == null)
@@ -130,25 +130,41 @@ public class ClientMainFragment extends Fragment
                     @Override
                     public void onScanFinished(BarcodeRecognitionResultsHandlerParcelable barcodeRecognitionResult)
                     {
-                        AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
-                        dialog.setMessage(((ClientResultsListener) barcodeRecognitionResult).resultString);
-                        dialog.create().show();
+                        String message = ((ClientResultsListener) barcodeRecognitionResult).resultString;
+                        if(message != null && message.length() > 0)
+                        {
+                            AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
+                            dialog.setMessage(message);
+                            dialog.create().show();
+                        }
                     }
                 });
-                BarcodeRecognitionSettings barcodeRecognitionSettings = clientBarcodeScannerViewModel.getData().getValue().getPreferences().getBarcodeRecognitionSettings();
-                barcodeRecognitionSettings.setBarCodeReadType(DecodeType.ALL_SUPPORTED_TYPES);
+                BarcodeScannerPreferences barcodeScannerPreferences = clientBarcodeScannerViewModel.getData().getValue().getPreferences();
+                barcodeScannerPreferences.setRotationEnabled(true);
+                barcodeScannerPreferences.getBarcodeRecognitionSettings().setBarCodeReadType(DecodeType.ALL_SUPPORTED_TYPES);
+                RecognitionProcessFragmentCameraPhotoBackground background = new RecognitionProcessFragmentCameraPhotoBackground();
+                background.setColorFilter(new LightingColorFilter(0xFF7F7F7F, 0x00000000));
+                barcodeScannerPreferences.getBarcodeRecognitionSettings().getBarcodeScannerFragmentSettings().getRecognitionProcessingFragmentSettings().setBackgroundImageDuringRecognitionProcess(background);
                 clientBarcodeScannerViewModel.getData().getValue().launchBarcodeScanner(listener);
             }
         });
 
-        recognizeBarcodeScannerViaFragmentButton.setOnClickListener(new View.OnClickListener()
-        {
+        recognizeBarcodeScannerViaFragmentButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 requireActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.mainFragmentContainerView, new ClientRecognizeFragment())
+                        .commit();
+            }
+        });
+
+        recognizeBarcodeScannerViaFullScreenFragmentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.mainFragmentContainerView, new FullScreenClientFragment())
                         .commit();
             }
         });

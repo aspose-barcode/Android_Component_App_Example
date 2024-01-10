@@ -3,8 +3,10 @@ apply plugin: 'maven-publish'
 
 project.description = 'Aspose Barcode Android Application'
 def proguardFileName = "gradles/proguard.app.conf"
-def githubProperties = new Properties()
-githubProperties.load(new FileInputStream(rootProject.file("github.properties")))
+//def githubProperties = new Properties()
+//githubProperties.load(new FileInputStream(rootProject.file("github.properties")))
+
+def githubProperties = GradleAssist.readProperties("$rootDir/github.properties");
 
 publishing {
     publications {
@@ -20,7 +22,6 @@ publishing {
         maven {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/aspose-barcode/Barcode_Android_Application")
-//            url = uri("https://github.com/aspose-barcode/Android-Sample-Application")
 
             credentials {
                 username = githubProperties['github.user']

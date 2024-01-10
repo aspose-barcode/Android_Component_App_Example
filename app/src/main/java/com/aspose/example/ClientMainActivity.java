@@ -12,6 +12,11 @@ import com.aspose.example.fragment.ClientBarcodeScannerFragmentViewModel;
 import com.aspose.example.fragment.ClientBarcodeScannerViewModel;
 import com.aspose.example.fragment.ClientRecognitionSettings;
 
+import androidx.annotation.NonNull;
+import android.Manifest;
+import androidx.core.app.ActivityCompat;
+import android.content.pm.PackageManager;
+
 import java.util.Locale;
 
 public class ClientMainActivity extends AppCompatActivity
@@ -50,6 +55,20 @@ public class ClientMainActivity extends AppCompatActivity
             clientBarcodeScannerFragmentViewModel.setClientRecognitionSettings(clientRecognitionSettings);
         }
 
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, 0);
+        else
+            loadActivityContent();
+
         setContentView(R.layout.activity_main);
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        loadActivityContent();
+    }
+
+    private void loadActivityContent(){}
 }
