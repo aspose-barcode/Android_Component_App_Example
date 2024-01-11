@@ -25,7 +25,7 @@ project.ext {
     versionName = project.ext.get('version_name')
     groupId = "com.aspose.barcode.android"
     artifactFinalName = "android-barcode-application"
-    apkFinalName = artifactFinalName + ".apk"
+    apkFinalName = artifactFinalName + "-" + versionName + ".apk"
     logPath = "${rootDir}/app/logs"
 }
 

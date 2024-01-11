@@ -6,11 +6,6 @@ public class GradleAssist
 {
     private static String TAG = "## GradleAssist ->";
 
-    public static void sayHi()
-    {
-        System.out.println("HI");
-    }
-
     public static Properties readProperties(String filePath)
     {
         Properties properties = new Properties();
@@ -32,5 +27,14 @@ public class GradleAssist
             System.out.println(TAG + e.getMessage());
         }
         return properties;
+    }
+
+    public static GitHubCredentials readGitHubCredentials(String filePath)
+    {
+        Properties properties = readProperties(filePath);
+        String userName = properties.get("github.user").toString();
+        String key = properties.get("github.key").toString();
+        GitHubCredentials gitHubCredentials = new GitHubCredentials(userName, key);
+        return gitHubCredentials;
     }
 }
