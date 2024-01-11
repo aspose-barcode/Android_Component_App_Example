@@ -3,8 +3,11 @@ apply plugin: 'maven-publish'
 
 project.description = 'Aspose Barcode Android Application'
 def proguardFileName = "gradles/proguard.app.conf"
-def githubProperties = new Properties()
-githubProperties.load(new FileInputStream(rootProject.file("github.properties")))
+//def githubProperties = new Properties()
+//githubProperties.load(new FileInputStream(rootProject.file("github.properties")))
+
+//def githubProperties = GradleAssist.readProperties("$rootDir/github.properties");
+def githubCredentials = GradleAssist.readGitHubCredentials("$rootDir/local.environment");
 
 publishing {
     publications {
@@ -20,11 +23,12 @@ publishing {
         maven {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/aspose-barcode/Barcode_Android_Application")
-//            url = uri("https://github.com/aspose-barcode/Android-Sample-Application")
 
             credentials {
-                username = githubProperties['github.user']
-                password = githubProperties['github.key']
+//                username = githubProperties['github.user']
+//                password = githubProperties['github.key']
+                username = githubCredentials.userName;
+                password = githubCredentials.password;
             }
         }
     }
@@ -92,10 +96,11 @@ task copyApk(type: Copy) {
     }
     destinationDir(file("$publishPath"))
     doFirst {
-        logger.info('\n### Executing copyApk')
+        logger.info('\n### copyApk started')
     }
     doLast {
         logger.info("copied  $apkFinalName  to  $publishPath")
+        logger.info('\n### copyApk completed')
     }
 }
 
@@ -114,6 +119,23 @@ gradle.taskGraph.whenReady { taskGraph ->
     }
 }
 
+task clearGeneratedFiles {
+    def treePublish = fileTree("$rootDir/publish")
+    treePublish.include '*.apk'
+    treePublish.exclude '*.gitignore'
+
+    doFirst {
+        delete(treePublish)
+        delete("$projectDir/out")
+        delete("$buildDir")
+        logger.info("clearGeneratedFiles started")
+    }
+    doLast {
+        logger.info("clearGeneratedFiles completed")
+    }
+}
+
+clean.dependsOn 'clearGeneratedFiles'
 preBuild.dependsOn('echoBuildParameters')
 copyApk.dependsOn 'check'
 build.dependsOn 'copyApk'

@@ -25,6 +25,10 @@ import com.aspose.barcode.component.barcodescanner.BarcodeScannerFragment;
 import com.aspose.barcode.component.barcodescanner.BarcodeScannerFragmentSettings;
 import com.aspose.barcode.component.example.R;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -90,14 +94,14 @@ public class ClientRecognizeFragment extends Fragment
 
         BarcodeRecognitionSettings barcodeRecognitionSettings = barcodeScannerFragment.getBarcodeRecognitionSettings();
 
-//        try {
+        try {
+            barcodeRecognitionSettings.getBarcodeScannerFragmentSettings().getCameraProcessingFragmentSettings().getRecognitionAreaSettings().setTwoDLineColor(Color.TRANSPARENT);
         barcodeRecognitionSettings.getBarcodeScannerFragmentSettings().getCameraProcessingFragmentSettings().getRecognitionAreaSettings().setOneDLineColor(Color.MAGENTA);
         barcodeRecognitionSettings.getBarcodeScannerFragmentSettings().getCameraProcessingFragmentSettings().getRecognitionAreaSettings().setOneDLineWidth(30);
-//            barcodeRecognitionSettings.getBarcodeScannerFragmentSettings().getCameraProcessingFragmentSettings().setCameraResolution(Collections.min(Arrays.asList(ClientSettingsFragment.getCameraResolutions(requireContext())), Comparator.comparingInt(o -> o.getWidth() * o.getHeight())));
-        barcodeRecognitionSettings.getBarcodeScannerFragmentSettings().getCameraProcessingFragmentSettings().setCameraResolution(new Size(1280,720));
-//        } catch (CameraAccessException e) {
-//            throw new RuntimeException(e);
-//        }
+            barcodeRecognitionSettings.getBarcodeScannerFragmentSettings().getCameraProcessingFragmentSettings().setCameraResolution(Collections.min(Arrays.asList(ClientSettingsFragment.getCameraResolutions(requireContext())), Comparator.comparingInt(o -> o.getWidth() * o.getHeight())));
+        } catch (CameraAccessException e) {
+            throw new RuntimeException(e);
+        }
 
         showRecognitionAreaCheckbox.setOnCheckedChangeListener((compoundButton, checked) ->
         {
@@ -130,12 +134,12 @@ public class ClientRecognizeFragment extends Fragment
 
     private void applyBarcodeScannerFragmentSettings(BarcodeRecognitionSettings barcodeRecognitionSettings)
     {
+        barcodeRecognitionSettings.getBarcodeScannerFragmentSettings().getCameraProcessingFragmentSettings().setFlashEnabled(true);
         ClientRecognitionSettings clientRecognitionSettings = clientBarcodeScannerFragmentViewModel.getData().getValue();
 
         barcodeRecognitionSettings.getBarcodeScannerFragmentSettings().getCameraProcessingFragmentSettings().getRecognitionAreaSettings().setRecognizeOnlyInRecognitionArea(clientRecognitionSettings.getShowRecognitionArea());
         barcodeRecognitionSettings.setBarCodeReadType(clientRecognitionSettings.getBarCodeReadType());
-        BarcodeScannerFragmentSettings barcodeScannerFragmentSettings = barcodeRecognitionSettings.getBarcodeScannerFragmentSettings();
-        barcodeScannerFragmentSettings.getCameraProcessingFragmentSettings().setFlashEnabled(clientRecognitionSettings.getFlashEnabled());
+        barcodeRecognitionSettings.getBarcodeScannerFragmentSettings().getCameraProcessingFragmentSettings().setFlashEnabled(clientRecognitionSettings.getFlashEnabled());
 
         barcodeRecognitionSettings.setBarcodeRecognitionResultHandler((context, results, settings) ->
         {
