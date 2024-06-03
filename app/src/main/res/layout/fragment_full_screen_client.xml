@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.clientapp.fragment.FullScreenClientFragment">
+    tools:context="com.aspose.example.fragment.FullScreenClientFragment">
 
     <fragment
         android:id="@+id/fullScreenBarcodeScannerFragment"
@@ -13,8 +13,15 @@
         android:layout_height="match_parent"
         app:recognition_process_progress_bar_color="#F5555F"
         app:recognition_process_above_label_text_color="#FFAA00"
+        app:recognize_only_in_recognition_area="true"
         app:recognition_area_one_d_line_color="#0022FF"
+        app:recognition_area_one_d_line_width="5"
+        app:recognition_area_one_d_line_style="DASH"
         app:recognition_area_two_d_line_color="#00FFDD"
+        app:recognition_area_two_d_line_width="10"
+        app:recognition_area_two_d_line_corner_radius="20"
+        app:recognition_area_two_d_line_style="DOT"
+        app:recognition_area_two_d_style="CORNERS"
         app:recognition_process_cancel_button_text_color="#55FF00"
         app:recognition_process_cancel_button_text_size="20"
         app:recognition_process_progress_bar_size="400"
@@ -22,8 +29,6 @@
         app:recognition_process_above_label_text_size="20"
         app:scanner_preferences_button_size="100"
         app:recognize_button_size="100"
-        app:recognition_area_two_d_line_width="10"
-        app:recognition_area_one_d_line_width="5"
         app:recognition_process_above_label_text="Processing..."
         app:recognition_process_cancel_button_text="Abort"
         app:recognize_button_content_description_text="20"

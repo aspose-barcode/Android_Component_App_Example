@@ -23,6 +23,7 @@ import com.aspose.barcode.barcoderecognition.DecodeType;
 import com.aspose.barcode.component.barcodescanner.BarcodeRecognitionSettings;
 import com.aspose.barcode.component.barcodescanner.BarcodeScannerFragment;
 import com.aspose.barcode.component.barcodescanner.BarcodeScannerFragmentSettings;
+import com.aspose.barcode.component.barcodescanner.recognitionareaview.BarcodeAreaLineStyle;
 import com.aspose.barcode.component.example.R;
 
 import java.util.Arrays;
@@ -95,9 +96,12 @@ public class ClientRecognizeFragment extends Fragment
         BarcodeRecognitionSettings barcodeRecognitionSettings = barcodeScannerFragment.getBarcodeRecognitionSettings();
 
         try {
-            barcodeRecognitionSettings.getBarcodeScannerFragmentSettings().getCameraProcessingFragmentSettings().getRecognitionAreaSettings().setTwoDLineColor(Color.TRANSPARENT);
-        barcodeRecognitionSettings.getBarcodeScannerFragmentSettings().getCameraProcessingFragmentSettings().getRecognitionAreaSettings().setOneDLineColor(Color.MAGENTA);
-        barcodeRecognitionSettings.getBarcodeScannerFragmentSettings().getCameraProcessingFragmentSettings().getRecognitionAreaSettings().setOneDLineWidth(30);
+            barcodeRecognitionSettings.getBarcodeScannerFragmentSettings().getCameraProcessingFragmentSettings().getRecognitionAreaSettings().setRecognizeOnlyInRecognitionArea(true);
+            barcodeRecognitionSettings.getBarcodeScannerFragmentSettings().getCameraProcessingFragmentSettings().getRecognitionAreaSettings().setTwoDLineColor(Color.CYAN);
+            barcodeRecognitionSettings.getBarcodeScannerFragmentSettings().getCameraProcessingFragmentSettings().getRecognitionAreaSettings().setTwoDAreaCornerRadius(20);
+            barcodeRecognitionSettings.getBarcodeScannerFragmentSettings().getCameraProcessingFragmentSettings().getRecognitionAreaSettings().setTwoDAreaBarcodeLineStyle(BarcodeAreaLineStyle.DASH_DOT);
+            barcodeRecognitionSettings.getBarcodeScannerFragmentSettings().getCameraProcessingFragmentSettings().getRecognitionAreaSettings().setOneDLineColor(Color.MAGENTA);
+            barcodeRecognitionSettings.getBarcodeScannerFragmentSettings().getCameraProcessingFragmentSettings().getRecognitionAreaSettings().setOneDLineWidth(30);
             barcodeRecognitionSettings.getBarcodeScannerFragmentSettings().getCameraProcessingFragmentSettings().setCameraResolution(Collections.min(Arrays.asList(ClientSettingsFragment.getCameraResolutions(requireContext())), Comparator.comparingInt(o -> o.getWidth() * o.getHeight())));
         } catch (CameraAccessException e) {
             throw new RuntimeException(e);
@@ -146,11 +150,13 @@ public class ClientRecognizeFragment extends Fragment
             String notRecognizedMessage = "Not recognized";
             String message = notRecognizedMessage;
             if (results.length > 0) {
-                message = results[0].getCodeText();
+                message = "";
+                for(int i = 0; i < results.length; i++)
+                    message += i + ". " + results[i].getCodeText() + ";\n";
             }
-            AlertDialog.Builder dialog1 = new AlertDialog.Builder(context);
-            dialog1.setMessage(message);
-            dialog1.create().show();
+            AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+            dialog.setMessage(message);
+            dialog.create().show();
             return message.equals(notRecognizedMessage);
         });
     }
