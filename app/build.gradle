@@ -3,10 +3,7 @@ apply plugin: 'maven-publish'
 
 project.description = 'Aspose Barcode Android Application'
 def proguardFileName = "gradles/proguard.app.conf"
-//def githubProperties = new Properties()
-//githubProperties.load(new FileInputStream(rootProject.file("github.properties")))
 
-//def githubProperties = GradleAssist.readProperties("$rootDir/github.properties");
 def githubCredentials = GradleAssist.readGitHubCredentials("$rootDir/local.environment");
 
 publishing {
@@ -25,14 +22,16 @@ publishing {
             url = uri("https://maven.pkg.github.com/aspose-barcode/Barcode_Android_Application")
 
             credentials {
-//                username = githubProperties['github.user']
-//                password = githubProperties['github.key']
                 username = githubCredentials.userName;
                 password = githubCredentials.password;
             }
         }
     }
 }
+
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
     namespace 'com.aspose.barcode.component.example'
@@ -48,16 +47,34 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        basic {
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+        }
+        release {
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+        }
+    }
+
     buildTypes {
         basic {
-//            signingConfig signingConfigs.release
+            signingConfig signingConfigs.basic
             versionNameSuffix '.basic'
             minifyEnabled true
             proguardFiles "$proguardFileName"
         }
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            versionNameSuffix '.release'
+            minifyEnabled true
+            proguardFiles "$proguardFileName"
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {
@@ -90,9 +107,9 @@ dependencies {
 }
 
 task copyApk(type: Copy) {
-    from("$buildDir/outputs/apk/basic") {
-        include("app-basic-unsigned.apk")
-        rename("app-basic-unsigned.apk", "$apkFinalName")
+    from("$buildDir/outputs/apk/release") {
+        include("app-release.apk")
+        rename("app-release.apk", "$apkFinalName")
     }
     destinationDir(file("$publishPath"))
     doFirst {
@@ -137,5 +154,5 @@ task clearGeneratedFiles {
 
 clean.dependsOn 'clearGeneratedFiles'
 preBuild.dependsOn('echoBuildParameters')
-copyApk.dependsOn 'check'
+copyApk.dependsOn 'assemble'
 build.dependsOn 'copyApk'
