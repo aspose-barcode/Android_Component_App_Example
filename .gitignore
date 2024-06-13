@@ -16,3 +16,6 @@ local.properties
 local.environment
 github.properties
 /.idea/
+/signing/*.*
+generate.cmd
+/keystore.properties
