@@ -4,15 +4,15 @@
 ## Introduction
 *Barcode Recognition Component* (**BRC**) is a part of the *Aspose Barcode for Android via Java* product.  
 It provides an API for integration into the GUI client module for barcode scanning and recognition.  
-**BRC** is a module that provides the image from the camera to a GUI component and upon pressing the recognition button, captures the image from camera and attempts to recognize the barcode from camera.  
-**BRC** provides the API that allows to use the component in two ways:
+**BRC** is a module that provides the image from the camera to a GUI component. Upon pressing the recognition button, it captures the image from the camera and attempts to recognise the barcode from the camera.
+**BRC** provides the API that allows the use of the component in two ways:
 1. **BRC** can be used in application as an independent activity. The client can launch the **BRC** as a separate service. The activity will perform scanning and return the result.
-2. **BRC** can be integrated into the client's GUI as a `Fragment`. In this case, the client will be able to perform more detailed customization of the component.
+2. **BRC** can be integrated into the client's GUI as a `Fragment`. In this case, the client will be able to perform a more detailed customization of the component.
 
 ### Base customization parameters of BRC:
 1. **BRC** can be configured both in Java code and in layout files.
 2. **BRC** provides API for accessing to all BarcodeReader settings, so all recognition settings can be configured.
-3. **BRC** provides API for barcode recognition on the entire image or recognition on bounding area. This option provides the possibility to customize the GUI for the barcode recognition area:
+3. **BRC** provides API for barcode recognition on the entire image or recognition on the bounding area. This option provides the possibility to customize the GUI for the barcode recognition area:
 - Size of the area
 - Drawing markers for recognition:
 - Line for 1D barcodes
@@ -22,8 +22,8 @@ It provides an API for integration into the GUI client module for barcode scanni
 ## Content:
 1. Using **BRC** as a `Fragment`.
 2. Using **BRC** as an `Activity`.
-3. Setting up *Recognition Settings*.
-4. Configuring *Barcode Recognition Area*.
+3. Setting up a *Recognition Settings*.
+4. Configuring a *Barcode Recognition Area*.
 5. Setting up animation during the recognition process.
 6. Using of the **BRC Example App**
 
